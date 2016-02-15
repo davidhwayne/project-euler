@@ -1,43 +1,44 @@
+import time
+
 def primes(n):
-	sieve=[True]*n
-	for i in range(2,n):
-		if sieve[i]:
-			for j in range(2*i,n,i):
-				sieve[j]=False 
-	primelistplus=[]
-	n=0
-	for boo in sieve:
-		if boo:
-			primelistplus.append(n)
-		n=n+1
-	primelist=primelistplus[2:]
-			
-	return primelist
+    sieve=[True]*n
+    for i in range(2,n):
+        if sieve[i]:
+            for j in range(2*i,n,i):
+                sieve[j]=False 
+    primelist=[num for num,boo in enumerate(sieve) if boo and num>1]
+    return primelist
 
-start=len(primes(1000))
-plist=primes(10000)[start:]
-psort=[]
-for p in plist:
-	ps=list(str(p))
-	ps.sort()
-	psort.append([p,''.join(ps)])
-psorted=sorted(psort, key=lambda prime: prime[1])
-i=0
+def primesanddigits():
+    primelist=[p for p in primes(10000) if p>1000]
+    digitstonums={}
+    for p in primelist:
+        primedigits=list(str(p))
+        primedigits.sort()
+        try:
+            digitstonums[''.join(primedigits)].append(p)
+        except:
+            digitstonums[''.join(primedigits)]=[p]
+    return digitstonums
 
-for i in range(len(psorted)-1):
-	dif=0
-	permuts=[]
-	while psorted[i][1]==psorted[i+1][1]:
-		if dif==0:
-			dif=psorted[i+1][0]-psorted[i][0]
-			permuts.append(psorted[i][0])
-			permuts.append(psorted[i+1][0])
-		elif dif!=psorted[i+1][0]-psorted[i][0]:
-			break
-		else:
-			permuts.append(psorted[i+1][0])
-		i+=1
-	else:
-		if len(permuts)>2:
-			print permuts
-#This code does not actually output the example solution because it only checks the current index with previous one, not with all of the previous primes in the permutation group.  
+def primediffcycle(primed):
+    for digits in primed:
+        if len(primed[digits])<3 or 1487 in primed[digits]:
+            continue
+        primed[digits].sort()
+        for i,a in enumerate(primed[digits][:-2]):
+            for j,b in enumerate(primed[digits][i+1:]):
+                for c in primed[digits][j+1:]:
+                    if c-b==b-a:
+                        return ''.join([str(p) for p in [a,b,c]])
+            
+def main():
+    start=time.time()
+    answer=primediffcycle(primesanddigits())
+    elapsed=time.time()-start
+    print answer
+    print 'Completed in {elapsed} seconds'.format(elapsed=elapsed)
+    return True
+    
+main()
+          

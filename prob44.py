@@ -1,25 +1,34 @@
+import time
 from math import sqrt
 
-done=False
-dif=0
-low=0
-up=0
-i=2
-while not done:
-	m=(i*(3*i-1))/2
-	j=i-1
-	while j>0:
-		n=(j*(3*j-1))/2
-		f=(1+sqrt(1+24*(m-n)))/6
-		g=(1+sqrt(1+24*(m+n)))/6
-		if int(f)==f and int(g)==g:
-			up=i
-			low=j
-			dif=m-n
-			done=True
-			break
-		j=j-1
-	i+=1
-print low
-print up
-print dif
+def pent(x):
+    return (x*(3*x-1))/2
+
+def ispent(a):
+    solution=(1+sqrt(1+24*(a)))/6
+    return int(solution)==solution
+    
+def minpentpair():
+    current=(0,0)
+    pentagonals=[]
+    i=2
+    while current==(0,0) or m<current[0]+current[1]:
+        m=pent(i)
+        pentagonals.append(m)
+        for n in pentagonals:
+            if ispent(m-n) and ispent(m+n):
+                if current==(0,0) or (current[0]+current[1]>m+n):
+                    current=(m,n)
+        i+=1
+    return current
+
+def main():
+    start=time.time()
+    pair=minpentpair()
+    answer=pair[0]-pair[1]
+    elapsed=time.time()-start
+    print answer
+    print 'Completed in {elapsed} seconds'.format(elapsed=elapsed)
+    return True
+    
+main()

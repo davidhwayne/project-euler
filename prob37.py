@@ -1,56 +1,48 @@
+import time
+
 def primes(n):
-	sieve=[True]*n
-	for i in range(2,n):
-		if sieve[i]:
-			for j in range(2*i,n,i):
-				sieve[j]=False 
-	primelistplus=[]
-	n=0
-	for boo in sieve:
-		if boo:
-			primelistplus.append(n)
-		n=n+1
-	primelist=primelistplus[2:]
-			
-	return primelist
+    sieve=[True]*n
+    for i in range(2,n):
+        if sieve[i]:
+            for j in range(2*i,n,i):
+                sieve[j]=False 
+    primelist=[num for num,boo in enumerate(sieve) if boo and num>1]
+    return primelist
 
-primes=primes(1000000)
+def istrunc(n,primes):
+    p=str(n)
+    if len(set(['0','2','4','5','6','8'])&set(p[1:]))>0:
+        return False
+    for k in range(len(p)):
+        lefttr=int(p[k:])
+        righttr=int(p[:len(p)-k])
+        if int(lefttr) not in primes:
+            return False
+        if int(righttr) not in primes:
+            return False
+    else:
+        return True
 
-def istrunc(n):
-	global primes
-	p=str(n)
-	for j in p[1:]:
-		if j=='0' or j=='2' or j=='4' or j=='5' or j=='6' or j=='8':
-			return False
-			break
-	for k in range(len(p)):
-		ltr=int(p[k:])
-		rtr=int(p[:len(p)-k])
-		i=0
-		while primes[i]<int(ltr) and i<len(primes)-1:
-			i=i+1
-		if primes[i]!=int(ltr):
-			return False
-			break
-		i=0
-		while primes[i]<int(rtr) and i<len(primes)-1:
-			i=i+1
-		if primes[i]!=int(rtr):
-			return False
-			break
-	else:
-		return True
-
-truncs=[]
-i=4
-count=0
-while count<11:
-	if istrunc(primes[i]):
-		print primes[i]
-		truncs.append(primes[i])
-		count+=1
-	i+=1
-print sum(truncs)
-	
+def truncs():
+    primelist=primes(1000000)
+    truncs=[]
+    i=4
+    count=0
+    while count<11:
+        if istrunc(primelist[i],primelist):
+            truncs.append(primelist[i])
+            count+=1
+        i+=1
+    return sum(truncs)
+    
+def main():
+    start=time.time()
+    answer=truncs()
+    elapsed=time.time()-start
+    print answer
+    print 'Completed in {elapsed} seconds'.format(elapsed=elapsed)
+    return True
+    
+main()
 
 

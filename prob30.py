@@ -1,14 +1,16 @@
-list=[]
-for i in range(2,400000):
-	n=str(i)
-	tot=0
-	for j in n:
-		tot=tot+int(j)**5
-	if tot==i:
-		list.append(i)
+import time
 
-print list
-print sum(list)
-	
-	
+def sumfifth():
+    return sum([sum([int(digit)**5 for digit in str(num)]) for num in range(2,400000) if sum([int(digit)**5 for digit in str(num)])==num])
+
+def main():
+    start=time.time()
+    answer=sumfifth()
+    elapsed=time.time()-start
+    print answer
+    print 'Completed in {elapsed} seconds'.format(elapsed=elapsed)
+    return True
+    
+main()
+    
 

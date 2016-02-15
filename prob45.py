@@ -1,18 +1,33 @@
-found=False
-next=0
-i=143
-j=165
-k=285
-while not found:
-	i=i+1
-	num=i*(2*i-1)
-	while (j*(3*j-1))/2<num:
-		j=j+1
-	while (k*(k+1))/2<num:
-		k=k+1
-	if (j*(3*j-1))/2==num and (k*(k+1))/2==num:
-		found=True
-		next=num
-print next
-		
+import time
+from math import sqrt
+
+def istri(num):
+    t=(-1+sqrt(1+8*num))/2
+    return t==int(t)
+    
+def ispent(num):
+    solution=(1+sqrt(1+24*(num)))/6
+    return int(solution)==solution  
+    
+def hex(n):
+    return n*(2*n-1)
+
+def findnext(start):
+    i=start
+    while True:
+        i+=1
+        h=hex(i)
+        if istri(h) and ispent(h):
+            return h
+            
+def main():
+    start=time.time()
+    answer=findnext(143)
+    elapsed=time.time()-start
+    print answer
+    print 'Completed in {elapsed} seconds'.format(elapsed=elapsed)
+    return True
+    
+main()
+        
 

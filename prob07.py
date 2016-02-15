@@ -1,4 +1,5 @@
 import time
+from math import sqrt,log
 
 def primes(n):
     sieve=[True]*n
@@ -9,26 +10,17 @@ def primes(n):
     primelist=[num for num,boo in enumerate(sieve) if boo and num>1]
     return primelist
     
-def ispan(n):
-    s=set(str(n))
-    if s==set([str(i) for i in range(1,8)]):
-        return True
-    else:
-        return False
-
-def largesstpanprime():
-    primelist=primes(7654322)
-    for p in primelist[::-1]:
-        if ispan(p):
-            return p
+def primenumbertheorem(num):
+    return num*log(num)
 
 def main():
     start=time.time()
-    answer=largesstpanprime()
+    epsilon=2000
+    answer=primes(int(primenumbertheorem(10000+epsilon)))[10000]
     elapsed=time.time()-start
     print answer
     print 'Completed in {elapsed} seconds'.format(elapsed=elapsed)
     return True
     
 main()
-    
+

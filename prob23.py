@@ -1,41 +1,34 @@
-def isab(n):
-	divisors=[]
-	for j in range(1,n):
-		if n%j==0:
-			divisors.append(j)
-	sumdiv=sum(divisors)
-	if n<sumdiv:
-		return True
-	else:
-		return False
+import time
 
-print "Finding abundants..."
-abs=[]
-for i in range(1,28123):
-	if isab(i):
-		abs.append(i)
+def isabundant(n):
+    if n<sum([j for j in range(1,int(n/2)+1) if n%j==0]):
+        return True
+    else:
+        return False
 
-print "Sum abundants..."
-sums=[]
-for i in range(len(abs)):
-	for j in range(i,len(abs)):
-		sums.append(abs[i]+abs[j])
+def findabundants(upto):
+    return [i for i in range(1,upto) if isabundant(i)]
 
-print "Sort summed abundants..."
-sums.sort()
+def getpairwisesums(nums,maxnum):
+    pairsums=[]
+    for i,n in enumerate(nums):
+        if n>maxnum/2:
+            break
+        for m in nums[i:]:
+            pairsums.append(n+m)
+    return pairsums
 
-print "Sum non-abundant-sums..."
-total=0
-j=0
-for i in range(1,28123):
-	while i>=sums[j]:
-		if i==sums[j]:
-			break
-		else:
-			j=j+1
-	else:
-		total=total+i
+def sumnotin(numlist,maxnum):
+    return sum(set(range(1,maxnum))-set(numlist))
 
-print total
+def main():
+    start=time.time()
+    answer=sumnotin(getpairwisesums(findabundants(28123),28123),28123)
+    elapsed=time.time()-start
+    print answer
+    print 'Completed in {elapsed} seconds'.format(elapsed=elapsed)
+    return True
+    
+main()
 
 

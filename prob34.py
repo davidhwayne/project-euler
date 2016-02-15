@@ -1,19 +1,16 @@
-def factorial(n):
-	fact=1
-	for i in range(1,n+1):
-		fact=fact*i
-	return fact
-		
+import time
+from math import factorial
 
-list=[]
-for i in range(3,300000):
-	n=str(i)
-	tot=0
-	for j in n:
-		tot=tot+factorial(int(j))
-	if tot==i:
-		list.append(i)
+def sumfactorialsums():
+    return sum([sum([factorial(int(digit)) for digit in str(num)]) for num in range(3,300000) if sum([factorial(int(digit)) for digit in str(num)])==num])
 
-print list
-print sum(list)
-	
+def main():
+    start=time.time()
+    answer=sumfactorialsums()
+    elapsed=time.time()-start
+    print answer
+    print 'Completed in {elapsed} seconds'.format(elapsed=elapsed)
+    return True
+    
+main()
+    

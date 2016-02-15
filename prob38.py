@@ -1,28 +1,25 @@
+import time
+
 def ispan(n):
-	s=list(n)
-	s.sort()
-	for i in range(9):
-		if str(i+1)!=s[i]:
-			return False
-			break
-	else:
-		return True
-print ispan('123456789')
-print ispan('213457698')
-print ispan('nope')
+    s=set(str(n))
+    if s==set([str(i) for i in range(1,10)]):
+        return True
+    else:
+        return False
 
+def largestpan():
+    current=918273645
+    for i in range(9876,9182,-1):
+        new=str(i)+str(i*2)
+        if ispan(new):
+            return new   
 
-
-current=918273645
-k=0
-for i in range(9487,9233,-1):
-	new=str(i)+str(i*2)
-	if ispan(new) and int(new)>current:
-		print new
-		break
-
-
-
-
-
-
+def main():
+    start=time.time()
+    answer=largestpan()
+    elapsed=time.time()-start
+    print answer
+    print 'Completed in {elapsed} seconds'.format(elapsed=elapsed)
+    return True
+    
+main()
